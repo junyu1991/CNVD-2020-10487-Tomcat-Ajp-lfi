@@ -1,4 +1,4 @@
-# CNVD-2020-10487-Tomcat-Ajp-lfi
+# CNVD-2020-10487-Tomcat-Ajp
 Tomcat-Ajp协议漏洞
 
 ## 使用
